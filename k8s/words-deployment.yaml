@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordsmith-words
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordsmith-words
+  template:
+    metadata:
+      labels:
+        app: wordsmith-words
+    spec:
+      containers:
+        - name: words
+          image: jpetazzo/wordsmith-words:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: "wordsmith-db"
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              value: "wordsmith"
+            - name: DB_USER
+              value: "wordsmith"
+            - name: DB_PASSWORD
+              value: "wordsmith"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordsmith-words
+spec:
+  selector:
+    app: wordsmith-words
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordsmith-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordsmith-db
+  template:
+    metadata:
+      labels:
+        app: wordsmith-db
+    spec:
+      containers:
+        - name: postgres
+          image: jpetazzo/wordsmith-db:latest
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: "wordsmith"
+            - name: POSTGRES_USER
+              value: "wordsmith"
+            - name: POSTGRES_PASSWORD
+              value: "wordsmith"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordsmith-db
+spec:
+  selector:
+    app: wordsmith-db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+  type: ClusterIP
