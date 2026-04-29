@@ -10,13 +10,13 @@ jobs:
         service:
           - name: db
             context: ./db
-            tag: "MamitianaRak/wordsmith:db"
+            tag: "mamitiana2025/wordsmith:db"
           - name: words
             context: ./words
-            tag: "MamitianaRak/wordsmith:words"
+            tag: "mamitiana2025/wordsmith:words"
           - name: web
             context: ./web
-            tag: "MamitianaRak/wordsmith:web"
+            tag: "mamitiana2025/wordsmith:web"
 
     steps:
       - name: Checkout repository
